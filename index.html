@@ -14,11 +14,14 @@
 
             <button id="adjBoard">ADJUST BOARD SIZE</button>
 
+        </div>
+
         <script>
 
             function createBoard (height, width) {
 
-                let sketchBox = document.createElement('div');
+                body.removeChild(sketchBox);
+                sketchBox = document.createElement('div');
                 sketchBox.classList.add('sketchBox')
                 body.appendChild(sketchBox);
 
@@ -27,7 +30,7 @@
 
                 for (i = 0; i < (height * width); i++){
                     var item = document.createElement('div');
-                    item.classList.add('item');
+                    item.setAttribute('id', 'item');
                     item.style.height = `${itemHeightSize}cm`;
                     item.style.width = `${itemWidthSize}cm`;
                     item.style.borderWidth = '.05cm';
@@ -36,18 +39,21 @@
                     sketchBox.appendChild(item);
 
                 }
-
+                items = document.querySelectorAll('#item');
+                items.forEach(item => {item.addEventListener('mouseenter', () => item.classList.add('itemHovered'))});
+               
             }
 
             function userInputBoard() {
-                userWidth = prompt('Input width of board (must be less than 60 and greather than 0)', '30');
-                userHeight = prompt('Input height of board (must be less than 60 and greater than 0)', '30');
+                userWidth = prompt('Input width of board (must be 100 or less and greather than 0)', '30');
+                userHeight = prompt('Input height of board (must be 100 or less and greater than 0)', '30');
 
-                if (userWidth > 60 || userHeight > 60 || userHeight <= 0 || userWidth <= 0 ){
-                    alert('Both height and width must be less than 60 and greater than 0!')
+                if (userWidth > 100 || userHeight > 100 || userHeight <= 0 || userWidth <= 0 ){
+                    alert('Both height and width must be 100 or less and greater than 0!')
                     return;
                 }
                 createBoard(userHeight, userWidth);
+                
             }
 
             function clearWithInput(){
@@ -57,17 +63,24 @@
                 } else {
                     createBoard(30,30);
                 }
+               
             }
 
+            var items;
             var userWidth;
             var userHeight;
             const body = document.querySelector('body');
+            let sketchBox = document.createElement('div');
+            body.appendChild(sketchBox);
             const clearBtn = document.getElementById('clear');
             const adjBoard = document.getElementById('adjBoard');
             createBoard(30,30);
 
+            
             clearBtn.addEventListener('click', () => clearWithInput());
-            adjBoard.addEventListener('click', () => userInputBoard())
+            adjBoard.addEventListener('click', () => userInputBoard());
+           
+           
 
 
  
